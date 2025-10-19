@@ -1,0 +1,116 @@
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobile-menu {
+  width: 280px;
+  height: 100%;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-menu-header h2 {
+  color: var(--color-brand);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.close-btn:hover {
+  background-color: var(--color-bg);
+}
+
+.mobile-nav {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.mobile-nav-link:hover {
+  background-color: var(--color-bg);
+}
+
+.mobile-nav-link.active {
+  background-color: var(--color-brand);
+  color: white;
+}
+
+.mobile-menu-footer {
+  padding: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.mobile-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.mobile-logout-btn:hover {
+  background-color: var(--color-border);
+}
+
+@media (min-width: 901px) {
+  .mobile-menu-trigger {
+    display: none;
+  }
+}
