@@ -16,9 +16,10 @@ const useChatStore = create((set, get) => ({
 
   // Initialize socket connection
   initializeSocket: (token) => {
-    const socket = io('http://localhost:5001', {
+    const socket = io(`${process.env.REACT_APP_API_URL.replace('/api', '')}`, {
       auth: { token },
       autoConnect: true,
+
     });
 
     socket.on('connect', () => {
@@ -47,14 +48,14 @@ const useChatStore = create((set, get) => ({
 
     socket.on('receiveMessage', (message) => {
       const { currentConversation, messages } = get();
-      
+
       // Add message to current conversation if it matches
       if (
         currentConversation &&
         message.conversationId === currentConversation.conversationId
       ) {
         set({ messages: [...messages, message] });
-        
+
         // Mark as read automatically if conversation is open
         get().markConversationAsRead(message.conversationId);
       }
@@ -83,7 +84,7 @@ const useChatStore = create((set, get) => ({
 
     socket.on('messagesRead', ({ conversationId }) => {
       const { currentConversation, messages } = get();
-      
+
       if (currentConversation?.conversationId === conversationId) {
         const updatedMessages = messages.map((msg) => ({
           ...msg,
@@ -120,7 +121,7 @@ const useChatStore = create((set, get) => ({
     try {
       const response = await api.get(`/messages/conversation/${userId}`);
       const messages = response.data.data || [];
-      
+
       // Get current user ID
       let currentUserId = localStorage.getItem('userId');
       if (!currentUserId) {
@@ -159,7 +160,7 @@ const useChatStore = create((set, get) => ({
   // Send message via socket
   sendMessage: (text, receiverId) => {
     const { socket, currentConversation } = get();
-    
+
     if (!socket || !currentConversation) return;
 
     const messageData = {
@@ -182,10 +183,10 @@ const useChatStore = create((set, get) => ({
   // Mark conversation as read
   markConversationAsRead: async (conversationId) => {
     const { socket } = get();
-    
+
     try {
       await api.patch(`/messages/read/${conversationId}`);
-      
+
       if (socket) {
         socket.emit('markAsRead', { conversationId });
       }
@@ -231,7 +232,7 @@ const useChatStore = create((set, get) => ({
   isOtherUserTyping: () => {
     const { currentConversation, typingUsers } = get();
     if (!currentConversation) return false;
-    
+
     return typingUsers.has(currentConversation.otherUser._id);
   },
 }));

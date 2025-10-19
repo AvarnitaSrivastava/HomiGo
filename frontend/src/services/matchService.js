@@ -2,7 +2,9 @@ import axios from 'axios';
 import { RoommateCompatibilityMatcher } from './roommateCompatibilityService';
 import api from './api';
 
-const API_URL = 'http://localhost:5001/api/matches';
+
+const API_URL = `${process.env.REACT_APP_API_URL}/api/matches`;
+
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
